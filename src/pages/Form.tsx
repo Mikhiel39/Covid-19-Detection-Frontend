@@ -30,29 +30,6 @@ function Form() {
       backgroundImage: `url(${hero})`,
     };
 
-    type PayloadType = {
-      breathe: number;
-      fever: number;
-      cough: number;
-      throat: number;
-      nose: number;
-      asthma: number;
-      lung: number;
-      headache: number;
-      heart: number;
-      diabetes: number;
-      tension: number;
-      travel: number;
-      covid: number;
-      gathering: number;
-      publicPlace: number;
-      family: number;
-      mask: number;
-      market: number;
-      gastrointestinal: number;
-      fatigue: number;
-    };
-
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       try {
@@ -101,7 +78,14 @@ function Form() {
         Cookies.set("name", response.data.prediction_text, { expires: 7 });
         window.location.href = "/result";
       } catch (error) {
-        console.error("There was an error making the request", error);
+        if (axios.isAxiosError(error)) {
+          console.error(
+            "There was an error making the request",
+            error.response?.data
+          );
+        } else {
+          console.error("There was an unexpected error", error);
+        }
       }
 
       resetForm();
