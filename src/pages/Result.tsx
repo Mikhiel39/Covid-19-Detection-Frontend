@@ -7,9 +7,11 @@ function Result() {
   const backgroundImageStyle = {
     backgroundImage: `url(${hero})`,
   };
-  const prediction = Cookies.get('name');
-  console.log(prediction);
-//   localStorage.clear();
+
+  // Retrieve prediction from cookies, with a default message if not found
+  const prediction =
+    Cookies.get("name") || "No prediction found. Please submit the form first.";
+
   return (
     <div className="relative">
       <div

@@ -89,10 +89,10 @@ function Form() {
 
         const response = await axios.post(
           "https://covid-19-detection-backend.onrender.com/predict",
-          payload,
+          JSON.stringify(payload),
           {
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "application/json; charset=UTF-8",
             },
           }
         );
