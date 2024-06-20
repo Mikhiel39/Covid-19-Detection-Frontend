@@ -29,6 +29,28 @@ function Form() {
     const backgroundImageStyle = {
       backgroundImage: `url(${hero})`,
     };
+    type PayloadType = {
+      breathe: number;
+      fever: number;
+      cough: number;
+      throat: number;
+      nose: number;
+      asthma: number;
+      lung: number;
+      headache: number;
+      heart: number;
+      diabetes: number;
+      tension: number;
+      travel: number;
+      covid: number;
+      gathering: number;
+      publicPlace: number;
+      family: number;
+      mask: number;
+      market: number;
+      gastrointestinal: number;
+      fatigue: number;
+    };
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
