@@ -30,41 +30,83 @@ function Form() {
       backgroundImage: `url(${hero})`,
     };
 
+    type PayloadType = {
+      breathe: number;
+      fever: number;
+      cough: number;
+      throat: number;
+      nose: number;
+      asthma: number;
+      lung: number;
+      headache: number;
+      heart: number;
+      diabetes: number;
+      tension: number;
+      travel: number;
+      covid: number;
+      gathering: number;
+      publicPlace: number;
+      family: number;
+      mask: number;
+      market: number;
+      gastrointestinal: number;
+      fatigue: number;
+    };
+
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
       event.preventDefault();
       try {
+        const payload: PayloadType = {
+          breathe,
+          fever,
+          cough,
+          throat,
+          nose,
+          asthma,
+          lung,
+          headache,
+          heart,
+          diabetes,
+          tension,
+          travel,
+          covid,
+          gathering,
+          publicPlace,
+          family,
+          mask,
+          market,
+          gastrointestinal,
+          fatigue,
+        };
+
+        // Validate the payload
+        for (const key in payload) {
+          if (
+            (payload as PayloadType)[key as keyof PayloadType] === undefined
+          ) {
+            throw new Error(`Missing value for ${key}`);
+          }
+        }
+
         const response = await axios.post(
           "https://covid-19-detection-backend.onrender.com/predict",
+          payload,
           {
-            breathe,
-            fever,
-            cough,
-            throat,
-            nose,
-            asthma,
-            lung,
-            headache,
-            heart,
-            diabetes,
-            tension,
-            travel,
-            covid,
-            gathering,
-            publicPlace,
-            family,
-            mask,
-            market,
-            gastrointestinal,
-            fatigue,
+            headers: {
+              "Content-Type": "application/json",
+            },
           }
         );
+
         Cookies.set("name", response.data.prediction_text, { expires: 7 });
-         window.location.href = "/result";
+        window.location.href = "/result";
       } catch (error) {
         console.error("There was an error making the request", error);
       }
-       resetForm();
+
+      resetForm();
     }
+
     function resetForm() {
       setBreathe(0);
       setFever(0);
@@ -92,6 +134,7 @@ function Form() {
     useEffect(() => {
       resetForm();
     }, []);
+
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">
