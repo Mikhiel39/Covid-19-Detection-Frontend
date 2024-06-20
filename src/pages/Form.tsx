@@ -1,146 +1,148 @@
 import hero from "../public/hero.svg"; // Adjust the path as necessary
 import axios from "axios";
-import { useState,useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, Navigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 function Form() {
-    const [breathe, setBreathe] = useState(0);
-    const [fever, setFever] = useState(0);
-    const [cough, setCough] = useState(0);
-    const [throat, setThroat] = useState(0);
-    const [nose, setNose] = useState(0);
-    const [asthma, setAsthma] = useState(0);
-    const [lung, setLung] = useState(0);
-    const [headache, setHeadache] = useState(0);
-    const [heart, setHeart] = useState(0);
-    const [diabetes, setDiabetes] = useState(0);
-    const [tension, setTension] = useState(0);
-    const [fatigue, setFatigue] = useState(0);
-    const [gastrointestinal, setGastrointestinal] = useState(0);
-    const [travel, setTravel] = useState(0);
-    const [covid, setCOVID] = useState(0);
-    const [gathering, setGathering] = useState(0);
-    const [publicPlace, setPublicPlace] = useState(0); // renamed from "public"
-    const [family, setFamily] = useState(0);
-    const [market, setMarket] = useState(0);
-    const [mask, setMask] = useState(0);
+  const [redirectToResult, setRedirectToResult] = useState(false);
+  const [breathe, setBreathe] = useState(0);
+  const [fever, setFever] = useState(0);
+  const [cough, setCough] = useState(0);
+  const [throat, setThroat] = useState(0);
+  const [nose, setNose] = useState(0);
+  const [asthma, setAsthma] = useState(0);
+  const [lung, setLung] = useState(0);
+  const [headache, setHeadache] = useState(0);
+  const [heart, setHeart] = useState(0);
+  const [diabetes, setDiabetes] = useState(0);
+  const [tension, setTension] = useState(0);
+  const [fatigue, setFatigue] = useState(0);
+  const [gastrointestinal, setGastrointestinal] = useState(0);
+  const [travel, setTravel] = useState(0);
+  const [covid, setCOVID] = useState(0);
+  const [gathering, setGathering] = useState(0);
+  const [publicPlace, setPublicPlace] = useState(0);
+  const [family, setFamily] = useState(0);
+  const [market, setMarket] = useState(0);
+  const [mask, setMask] = useState(0);
 
-    const backgroundImageStyle = {
-      backgroundImage: `url(${hero})`,
-    };
-    type PayloadType = {
-      breathe: number;
-      fever: number;
-      cough: number;
-      throat: number;
-      nose: number;
-      asthma: number;
-      lung: number;
-      headache: number;
-      heart: number;
-      diabetes: number;
-      tension: number;
-      travel: number;
-      covid: number;
-      gathering: number;
-      publicPlace: number;
-      family: number;
-      mask: number;
-      market: number;
-      gastrointestinal: number;
-      fatigue: number;
-    };
+  const backgroundImageStyle = {
+    backgroundImage: `url(${hero})`,
+  };
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-      try {
-        const payload: PayloadType = {
-          breathe,
-          fever,
-          cough,
-          throat,
-          nose,
-          asthma,
-          lung,
-          headache,
-          heart,
-          diabetes,
-          tension,
-          travel,
-          covid,
-          gathering,
-          publicPlace,
-          family,
-          mask,
-          market,
-          gastrointestinal,
-          fatigue,
-        };
+  type PayloadType = {
+    breathe: number;
+    fever: number;
+    cough: number;
+    throat: number;
+    nose: number;
+    asthma: number;
+    lung: number;
+    headache: number;
+    heart: number;
+    diabetes: number;
+    tension: number;
+    travel: number;
+    covid: number;
+    gathering: number;
+    publicPlace: number;
+    family: number;
+    mask: number;
+    market: number;
+    gastrointestinal: number;
+    fatigue: number;
+  };
 
-        // Validate the payload
-        for (const key in payload) {
-          if (
-            (payload as PayloadType)[key as keyof PayloadType] === undefined
-          ) {
-            throw new Error(`Missing value for ${key}`);
-          }
-        }
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      const payload: PayloadType = {
+        breathe,
+        fever,
+        cough,
+        throat,
+        nose,
+        asthma,
+        lung,
+        headache,
+        heart,
+        diabetes,
+        tension,
+        travel,
+        covid,
+        gathering,
+        publicPlace,
+        family,
+        mask,
+        market,
+        gastrointestinal,
+        fatigue,
+      };
 
-        const response = await axios.post(
-          "https://covid-19-detection-backend.onrender.com/predict",
-          JSON.stringify(payload),
-          {
-            headers: {
-              "Content-Type": "application/json; charset=UTF-8",
-            },
-          }
-        );
-
-        Cookies.set("name", response.data.prediction_text, { expires: 7 });
-        window.location.href = "/result";
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error(
-            "There was an error making the request",
-            error.response?.data
-          );
-        } else {
-          console.error("There was an unexpected error", error);
+      // Validate the payload
+      for (const key in payload) {
+        if ((payload as PayloadType)[key as keyof PayloadType] === undefined) {
+          throw new Error(`Missing value for ${key}`);
         }
       }
 
-      resetForm();
+      const response = await axios.post(
+        "https://covid-19-detection-backend.onrender.com/predict",
+        JSON.stringify(payload),
+        {
+          headers: {
+            "Content-Type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+
+      Cookies.set("name", response.data.prediction_text, { expires: 5 });
+      setRedirectToResult(true);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "There was an error making the request",
+          error.response?.data
+        );
+      } else {
+        console.error("There was an unexpected error", error);
+      }
     }
 
-    function resetForm() {
-      setBreathe(0);
-      setFever(0);
-      setCough(0);
-      setThroat(0);
-      setNose(0);
-      setAsthma(0);
-      setLung(0);
-      setHeadache(0);
-      setHeart(0);
-      setDiabetes(0);
-      setTension(0);
-      setFatigue(0);
-      setGastrointestinal(0);
-      setTravel(0);
-      setCOVID(0);
-      setGathering(0);
-      setPublicPlace(0);
-      setFamily(0);
-      setMarket(0);
-      setMask(0);
-    }
+    resetForm();
+  }
 
-    // Reset form state on component mount
-    useEffect(() => {
-      resetForm();
-    }, []);
+  function resetForm() {
+    setBreathe(0);
+    setFever(0);
+    setCough(0);
+    setThroat(0);
+    setNose(0);
+    setAsthma(0);
+    setLung(0);
+    setHeadache(0);
+    setHeart(0);
+    setDiabetes(0);
+    setTension(0);
+    setFatigue(0);
+    setGastrointestinal(0);
+    setTravel(0);
+    setCOVID(0);
+    setGathering(0);
+    setPublicPlace(0);
+    setFamily(0);
+    setMarket(0);
+    setMask(0);
+  }
 
+  useEffect(() => {
+    resetForm();
+  }, []);
+
+  if (redirectToResult) {
+    return <Navigate to="/result" />;
+  }
 
   return (
     <div className="relative min-h-screen flex items-center justify-center">

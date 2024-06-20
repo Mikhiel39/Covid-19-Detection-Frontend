@@ -11,7 +11,7 @@ import Result from "./pages/Result";
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index element={<Home />} /> {/* Changed path="" to index */}
+      <Route index element={<Home />} />
       <Route path="form" element={<Form />} />
       <Route path="result" element={<Result />} />
     </Route>

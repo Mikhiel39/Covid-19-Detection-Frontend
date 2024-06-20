@@ -9,9 +9,8 @@ function Result() {
   };
 
   // Retrieve prediction from cookies, with a default message if not found
-  const prediction =
-    Cookies.get("name") || "No prediction found. Please submit the form first.";
-
+  const prediction = Cookies.get("name") || "No prediction found. Please submit the form first.";
+  // Cookies.remove("name");
   return (
     <div className="relative">
       <div
