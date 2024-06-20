@@ -34,7 +34,7 @@ function Form() {
       event.preventDefault();
       try {
         const response = await axios.post(
-          "https://covid-19-detection-backend.vercel.app/predict",
+          "https://covid-19-detection-backend.onrender.com/predict",
           {
             breathe,
             fever,
