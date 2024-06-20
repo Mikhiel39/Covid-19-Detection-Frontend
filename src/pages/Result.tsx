@@ -1,16 +1,20 @@
 // src/Result.tsx
 import hero from "../public/hero.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 function Result() {
   const backgroundImageStyle = {
     backgroundImage: `url(${hero})`,
   };
+  const navigate = useNavigate();
 
   // Retrieve prediction from cookies, with a default message if not found
   const prediction = Cookies.get("name") || "No prediction found. Please submit the form first.";
-  // Cookies.remove("name");
+  if (!prediction) {
+    navigate("/error");
+    return null; // Return null to prevent rendering the result page
+  }
   return (
     <div className="relative">
       <div

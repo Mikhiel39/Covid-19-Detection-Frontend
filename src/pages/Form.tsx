@@ -100,14 +100,7 @@ function Form() {
       Cookies.set("name", response.data.prediction_text, { expires: 5 });
       setRedirectToResult(true);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error(
-          "There was an error making the request",
-          error.response?.data
-        );
-      } else {
-        console.error("There was an unexpected error", error);
-      }
+      <Navigate to="/error" />
     }
 
     resetForm();
