@@ -19,7 +19,7 @@ function Home() {
               Welcome
             </div>
             <div className="text-slate-800 text-2xl md:text-3xl lg:text-5xl font-bold mb-5">
-              Covid-19 Detection
+              Covid-19 Detector
             </div>
             <div className="text-slate-800 text-base md:text-lg lg:text-xl mb-5">
               Fill the form to get your COVID-19 Status

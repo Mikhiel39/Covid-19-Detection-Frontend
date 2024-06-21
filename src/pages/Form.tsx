@@ -1,4 +1,4 @@
-import hero from "../public/hero.svg"; // Adjust the path as necessary
+import hero from "../public/hero.svg";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, Navigate } from "react-router-dom";
