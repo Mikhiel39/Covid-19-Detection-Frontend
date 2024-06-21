@@ -1,19 +1,25 @@
 // src/Result.tsx
 import hero from "../public/hero.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { useState } from "react";
 import Cookies from "js-cookie";
 
 function Result() {
+  const [redirectToForm, setRedirectToForm] = useState(false);
   const backgroundImageStyle = {
     backgroundImage: `url(${hero})`,
   };
-  const navigate = useNavigate();
-
   // Retrieve prediction from cookies, with a default message if not found
-  const prediction = Cookies.get("name") || "No prediction found. Please submit the form first.";
+  const prediction = Cookies.get("name") || "Please submit the form first.";
+  function handleBack() {
+    Cookies.remove("name");
+    setRedirectToForm(true);
+  }
   if (!prediction) {
-    navigate("/error");
-    return null; // Return null to prevent rendering the result page
+    return <Navigate to="/error" />;
+  }
+  if (redirectToForm) {
+    return <Navigate to="/form" />;
   }
   return (
     <div className="relative">
@@ -26,11 +32,19 @@ function Result() {
           <div className="h-full w-full bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100 p-20">
             <h1 className="text-2xl font-bold mb-4">Result:</h1>
             <p className="text-xl text-slate-900">{prediction}</p>
-            <Link to="/form">
-              <button className="mt-4 bg-orange-500 hover:bg-white text-white hover:text-black px-4 py-2 rounded-md">
+            <div className="flex space-x-20 ml-14">
+              <button
+                onClick={handleBack}
+                className="mt-10 ml-10 bg-orange-500 hover:bg-white text-white hover:text-black px-4 py-2 rounded-md"
+              >
                 Go Back
               </button>
-            </Link>
+              <Link to="/">
+                <button className="mt-10 bg-orange-500 hover:bg-white text-white hover:text-black py-2 px-4 rounded-lg">
+                  Go To Home
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -99,7 +99,7 @@ function Form() {
       if (response.status==404){
         return <Navigate to="/error" />;
       }
-        Cookies.set("name", response.data.prediction_text, { expires: 5 });
+        Cookies.set("name", response.data.prediction_text);
       setRedirectToResult(true);
     } catch (error) {
       <Navigate to="/error" />
