@@ -13,7 +13,7 @@ dist-ssr
 *.local
 *.md
 *.json
-*.cjs
+.eslintric.cjs
 *.js
 
 # Editor directories and files
